@@ -11,4 +11,4 @@ name = "pypi"
 python_version = "3.11"
 
 [scripts]
-test = "python -m unittest discover -v -s tests"
+test = 'bash -c "export PYTHONPATH=\"./src:./tests:$PYTHONPATH\"; python -m unittest discover -v -s tests"'
