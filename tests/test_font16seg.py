@@ -48,14 +48,19 @@ class TestFont16seg(unittest.TestCase):
         font16seg.attrib16seg(10, 8, lcd.BLUE, rotate=0)
         self.assertEqual(font16seg._rotate, 0)
 
-        font16seg.attrib16seg(10, 8, lcd.BLUE, rotate=1)
-        self.assertEqual(font16seg._rotate, 0)
-        font16seg.attrib16seg(10, 8, lcd.BLUE, rotate=360)
-        self.assertEqual(font16seg._rotate, 0)
-        font16seg.attrib16seg(10, 8, lcd.BLUE, rotate=-90)
-        self.assertEqual(font16seg._rotate, 0)
-        font16seg.attrib16seg(10, 8, lcd.BLUE, rotate=None)
-        self.assertEqual(font16seg._rotate, 0)
+        with self.assertRaises(ValueError):
+            font16seg.attrib16seg(10, 8, lcd.BLUE, rotate=1)
+        with self.assertRaises(ValueError):
+            font16seg.attrib16seg(10, 8, lcd.BLUE, rotate=360)
+        with self.assertRaises(ValueError):
+            font16seg.attrib16seg(10, 8, lcd.BLUE, rotate=-90)
+
+    def test_attrib16seg_rotate_keep_value(self):
+        font16seg.attrib16seg(10, 8, lcd.BLUE, rotate=270)
+        self.assertEqual(font16seg._rotate, 270)
+
+        font16seg.attrib16seg(10, 8, lcd.RED)
+        self.assertEqual(font16seg._rotate, 270)
 
     def test_resetAttributes(self):
         font16seg.attrib16seg(10, 8, lcd.BLUE, unlit_color=lcd.RED, letter_spacing=6, rotate=270)

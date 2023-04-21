@@ -145,8 +145,10 @@ def __draw_16seg(x, y, l, w, flags, color, unlit_color=None):
         __vertical_bar(x-w*3-l*4-8, y, l, w,                                  __color(color, unlit_color, flags, 15))
         __vertical_bar(x-w*3-l*4-8, y+w+l+1, l, w,                            __color(color, unlit_color, flags, 16))
     elif _rotate == 180:
+        # TODO
         pass
     elif _rotate == 270:
+        # TODO
         pass
 
 def __calc_16seg_character_width(l, w):
@@ -188,7 +190,7 @@ def textWidth(txt):
         width += _letter_spacing * (text_length - 1)
     return width
 
-def attrib16seg(length, width, color, *, unlit_color=-1, letter_spacing=None, rotate=0):
+def attrib16seg(length, width, color, *, unlit_color=-1, letter_spacing=None, rotate=None):
     """
     Set attributes of the 16-segment font.
 
@@ -209,7 +211,7 @@ def attrib16seg(length, width, color, *, unlit_color=-1, letter_spacing=None, ro
         Distance between characters.
     rotate : int
         Font rotation angle.
-        Only accepts 0, 90, 180 and 270.
+        Only accepts 0, 90, 180 or 270.
     """
     global _length, _width, _color, _unlit_color, _letter_spacing, _rotate
 
@@ -229,8 +231,11 @@ def attrib16seg(length, width, color, *, unlit_color=-1, letter_spacing=None, ro
         if letter_spacing < 0:
             letter_spacing = 0
         _letter_spacing = letter_spacing
-    if rotate in (0, 90, 180, 270):  # TODO
-        _rotate = rotate
+    if rotate is not None:
+        if rotate in (0, 90, 180, 270):
+            _rotate = rotate
+        else:
+            raise ValueError("rotate parameter only accepts 0, 90, 180 or 270")
 
 def text(x, y, txt, *, color=None, unlit_color=None):
     """
@@ -258,4 +263,5 @@ def text(x, y, txt, *, color=None, unlit_color=None):
     for c in txt:
         character = __CHARACTERS.get(ord(c), __CHARACTERS[__DEFAULT_CHARACTER_CODE])
         __draw_16seg(x, y, _length, _width, character['f'], color, unlit_color)
+        # TODO
         x += __calc_16seg_character_width(_length, _width) + _letter_spacing
