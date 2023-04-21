@@ -67,7 +67,7 @@ def resetAttributes():
     Reset attributes.
     """
     global _length, _width, _color, _unlit_color, _letter_spacing, _rotate
-    _length = 8
+    _length = 4
     _width = 2
     _color = lcd.get_fg()
     _unlit_color = None
