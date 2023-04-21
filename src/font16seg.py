@@ -135,8 +135,25 @@ def fontSize():
     return (__calc_16seg_character_width(_length, _width), __calc_16seg_character_height(_length, _width))
 
 def textWidth(txt):
-    # TODO
-    pass
+    """
+    Return the width of the string txt.
+
+    Parameters
+    ----------
+    txt : str
+        String to calculate the width.
+
+    Returns
+    -------
+    int
+        The width of the given string.
+    """
+    width = 0
+    text_length = len(txt)
+    width += __calc_16seg_character_width(_length, _width) * text_length
+    if text_length > 0:
+        width += _letter_spacing * (text_length - 1)
+    return width
 
 def attrib16seg(length, width, color, *, unlit_color=-1, letter_spacing=None, rotate=0):
     """

@@ -111,3 +111,19 @@ class TestFont16seg(unittest.TestCase):
     def test_fontSize_min(self):
         font16seg.attrib16seg(3, 2, lcd.WHITE)
         self.assertEqual(font16seg.fontSize(), (14, 26))
+
+    def test_textWidth(self):
+        font16seg.attrib16seg(10, 8, lcd.WHITE, letter_spacing=1)
+        self.assertEqual(font16seg.textWidth("012345"), 46*6+1*5)
+
+    def test_textWidth_with_0_length_string(self):
+        font16seg.attrib16seg(10, 8, lcd.WHITE, letter_spacing=1)
+        self.assertEqual(font16seg.textWidth(""), 0)
+
+    def test_textWidth_with_1_length_string(self):
+        font16seg.attrib16seg(10, 8, lcd.WHITE, letter_spacing=1)
+        self.assertEqual(font16seg.textWidth("A"), 46)
+
+    def test_textWidth_with_unsupported_characters(self):
+        font16seg.attrib16seg(10, 8, lcd.WHITE, letter_spacing=2)
+        self.assertEqual(font16seg.textWidth("0#!1?@"), 46*6+2*5)
