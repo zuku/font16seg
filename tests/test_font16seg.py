@@ -4,6 +4,9 @@ from m5stack import lcd
 import font16seg
 
 class TestFont16seg(unittest.TestCase):
+    def setUp(self):
+        font16seg.resetAttributes()
+
     def test_attrib16seg(self):
         font16seg.attrib16seg(10, 8, lcd.BLUE, unlit_color=lcd.RED, letter_spacing=6, rotate=270)
         self.assertEqual(font16seg._length, 10)
@@ -52,6 +55,23 @@ class TestFont16seg(unittest.TestCase):
         font16seg.attrib16seg(10, 8, lcd.BLUE, rotate=-90)
         self.assertEqual(font16seg._rotate, 0)
         font16seg.attrib16seg(10, 8, lcd.BLUE, rotate=None)
+        self.assertEqual(font16seg._rotate, 0)
+
+    def test_resetAttributes(self):
+        font16seg.attrib16seg(10, 8, lcd.BLUE, unlit_color=lcd.RED, letter_spacing=6, rotate=270)
+        self.assertEqual(font16seg._length, 10)
+        self.assertEqual(font16seg._width, 8)
+        self.assertEqual(font16seg._color, lcd.BLUE)
+        self.assertEqual(font16seg._unlit_color, lcd.RED)
+        self.assertEqual(font16seg._letter_spacing, 6)
+        self.assertEqual(font16seg._rotate, 270)
+
+        font16seg.resetAttributes()
+        self.assertEqual(font16seg._length, 8)
+        self.assertEqual(font16seg._width, 2)
+        self.assertEqual(font16seg._color, lcd.get_fg())
+        self.assertIsNone(font16seg._unlit_color)
+        self.assertEqual(font16seg._letter_spacing, 3)
         self.assertEqual(font16seg._rotate, 0)
 
     def test_text(self):

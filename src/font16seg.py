@@ -55,12 +55,26 @@ __CHARACTERS = {
 
 __DEFAULT_CHARACTER_CODE = 0x20  # [SP]
 
-_length = 8
-_width = 2
-_color = lcd.get_fg()
+_length = None
+_width = None
+_color = None
 _unlit_color = None
-_letter_spacing = 3
-_rotate = 0
+_letter_spacing = None
+_rotate = None
+
+def resetAttributes():
+    """
+    Reset attributes.
+    """
+    global _length, _width, _color, _unlit_color, _letter_spacing, _rotate
+    _length = 8
+    _width = 2
+    _color = lcd.get_fg()
+    _unlit_color = None
+    _letter_spacing = 3
+    _rotate = 0
+
+resetAttributes()
 
 def __horizontal_bar(x, y, l, w, color):
     if color is None:
