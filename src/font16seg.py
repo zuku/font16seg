@@ -119,9 +119,20 @@ def __draw_16seg(x, y, l, w, flags, color, unlit_color=None):
 def __calc_16seg_character_width(l, w):
     return l * 2 + w * 3 + 2
 
+def __calc_16seg_character_height(l, w):
+    return l * 4 + w * 3 + 8
+
 def fontSize():
-    # TODO
-    pass
+    """
+    Return font size.
+
+    Returns
+    -------
+    tuple : (width : int, height : int)
+        Nominal font sizes.
+        (width, height)
+    """
+    return (__calc_16seg_character_width(_length, _width), __calc_16seg_character_height(_length, _width))
 
 def textWidth(txt):
     # TODO
@@ -136,8 +147,10 @@ def attrib16seg(length, width, color, *, unlit_color=-1, letter_spacing=None, ro
     length : int
         Segment length.
         Length of a rectangular part of a short (horizontal) segment.
+        Minimum value is 3.
     width : int
         Segment width.
+        Minimum value is 2.
     color : int
         Text color.
     unlit_color : int

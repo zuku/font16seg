@@ -103,3 +103,11 @@ class TestFont16seg(unittest.TestCase):
         font16seg.text(0, 0, "?")
         lcd.triangle.assert_not_called()
         lcd.rect.assert_not_called()
+
+    def test_fontSize(self):
+        font16seg.attrib16seg(10, 8, lcd.WHITE)
+        self.assertEqual(font16seg.fontSize(), (46, 72))
+
+    def test_fontSize_min(self):
+        font16seg.attrib16seg(3, 2, lcd.WHITE)
+        self.assertEqual(font16seg.fontSize(), (14, 26))
