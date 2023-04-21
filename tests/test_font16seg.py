@@ -5,11 +5,11 @@ import font16seg
 
 class TestFont16seg(unittest.TestCase):
     def test_attrib16seg(self):
-        font16seg.attrib16seg(10, 8, lcd.BLUE, blank_color=lcd.RED, letter_spacing=6, rotate=270)
+        font16seg.attrib16seg(10, 8, lcd.BLUE, unlit_color=lcd.RED, letter_spacing=6, rotate=270)
         self.assertEqual(font16seg._length, 10)
         self.assertEqual(font16seg._width, 8)
         self.assertEqual(font16seg._color, lcd.BLUE)
-        self.assertEqual(font16seg._blank_color, lcd.RED)
+        self.assertEqual(font16seg._unlit_color, lcd.RED)
         self.assertEqual(font16seg._letter_spacing, 6)
         self.assertEqual(font16seg._rotate, 270)
 
@@ -31,9 +31,9 @@ class TestFont16seg(unittest.TestCase):
         self.assertEqual(font16seg._width, 10)
         self.assertEqual(font16seg._color, lcd.BLUE)
 
-    def test_attrib16seg_reset_blank_color(self):
-        font16seg.attrib16seg(10, 8, lcd.BLUE, blank_color=None)
-        self.assertIsNone(font16seg._blank_color)
+    def test_attrib16seg_reset_unlit_color(self):
+        font16seg.attrib16seg(10, 8, lcd.BLUE, unlit_color=None)
+        self.assertIsNone(font16seg._unlit_color)
 
     def test_attrib16seg_rotate_only_accepts_multiple_of_90(self):
         font16seg.attrib16seg(10, 8, lcd.BLUE, rotate=270)
@@ -59,17 +59,17 @@ class TestFont16seg(unittest.TestCase):
         lcd.triangle = MagicMock()
         lcd.rect = MagicMock()
 
-        font16seg.attrib16seg(8, 2, lcd.WHITE, blank_color=None)
+        font16seg.attrib16seg(8, 2, lcd.WHITE, unlit_color=None)
         font16seg.text(0, 0, "0")
         self.assertEqual(lcd.triangle.call_count, 20)
         self.assertEqual(lcd.rect.call_count, 8)
 
-    def test_text_with_blank_color(self):
+    def test_text_with_unlit_color(self):
         lcd.screensize = MagicMock(return_value=(136, 241))
         lcd.triangle = MagicMock()
         lcd.rect = MagicMock()
 
-        font16seg.attrib16seg(8, 2, lcd.WHITE, blank_color=lcd.DARKGREY)
+        font16seg.attrib16seg(8, 2, lcd.WHITE, unlit_color=lcd.DARKGREY)
         font16seg.text(0, 0, "0")
         self.assertEqual(lcd.triangle.call_count, 32)
         self.assertEqual(lcd.rect.call_count, 12)
@@ -79,7 +79,7 @@ class TestFont16seg(unittest.TestCase):
         lcd.triangle = MagicMock()
         lcd.rect = MagicMock()
 
-        font16seg.attrib16seg(8, 2, lcd.WHITE, blank_color=None)
+        font16seg.attrib16seg(8, 2, lcd.WHITE, unlit_color=None)
         font16seg.text(0, 0, "?")
         lcd.triangle.assert_not_called()
         lcd.rect.assert_not_called()

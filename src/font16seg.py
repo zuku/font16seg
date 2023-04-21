@@ -58,7 +58,7 @@ __DEFAULT_CHARACTER_CODE = 0x20  # [SP]
 _length = 8
 _width = 2
 _color = lcd.get_fg()
-_blank_color = None
+_unlit_color = None
 _letter_spacing = 3
 _rotate = 0
 
@@ -84,23 +84,23 @@ def __diagonal_bar(x1, y1, x2, y2, w, color):
     lcd.triangle(x1, y1, x1, y1+w, x2, y2, color, color)
     lcd.triangle(x2, y2, x2, y2-w, x1, y1, color, color)
 
-def __draw_16seg(x, y, l, w, flags, color, blank_color=None):
-    __horizontal_bar(x, y, l, w,                                        color if flags & 0b1000000000000000 > 0 else blank_color)
-    __horizontal_bar(x+w+l+1, y, l, w,                                  color if flags & 0b0100000000000000 > 0 else blank_color)
-    __vertical_bar(x, y+2, l*2, w,                                      color if flags & 0b0010000000000000 > 0 else blank_color)
-    __diagonal_bar(x+w+1, y+w+1, x+w+l, y+w+4+l*2, w,                   color if flags & 0b0001000000000000 > 0 else blank_color)
-    __vertical_bar(x+w+l+1, y+2, l*2, w,                                color if flags & 0b0000100000000000 > 0 else blank_color)
-    __diagonal_bar(x+w*2+l*2+1, y+w+1, x+w*2+l+2, y+w+4+l*2, w,         color if flags & 0b0000010000000000 > 0 else blank_color)
-    __vertical_bar(x+w*2+l*2+2, y+2, l*2, w,                            color if flags & 0b0000001000000000 > 0 else blank_color)
-    __horizontal_bar(x, y+w+4+l*2, l, w,                                color if flags & 0b0000000100000000 > 0 else blank_color)
-    __horizontal_bar(x+w+l+1, y+w+4+l*2, l, w,                          color if flags & 0b0000000010000000 > 0 else blank_color)
-    __vertical_bar(x, y+w+7+l*2, l*2, w,                                color if flags & 0b0000000001000000 > 0 else blank_color)
-    __diagonal_bar(x+w+l, y+w*2+5+l*2, x+w+1, y+w*2+7+l*4, w,           color if flags & 0b0000000000100000 > 0 else blank_color)
-    __vertical_bar(x+w+l+1, y+w+7+l*2, l*2, w,                          color if flags & 0b0000000000010000 > 0 else blank_color)
-    __diagonal_bar(x+w*2+l+2, y+w*2+5+l*2, x+w*2+l*2+1, y+w*2+7+l*4, w, color if flags & 0b0000000000001000 > 0 else blank_color)
-    __vertical_bar(x+w*2+3+l*2, y+w+7+l*2, l*2, w,                      color if flags & 0b0000000000000100 > 0 else blank_color)
-    __horizontal_bar(x, y+w*2+8+l*4, l, w,                              color if flags & 0b0000000000000010 > 0 else blank_color)
-    __horizontal_bar(x+w+l+1, y+w*2+8+l*4, l, w,                        color if flags & 0b0000000000000001 > 0 else blank_color)
+def __draw_16seg(x, y, l, w, flags, color, unlit_color=None):
+    __horizontal_bar(x, y, l, w,                                        color if flags & 0b1000000000000000 > 0 else unlit_color)
+    __horizontal_bar(x+w+l+1, y, l, w,                                  color if flags & 0b0100000000000000 > 0 else unlit_color)
+    __vertical_bar(x, y+2, l*2, w,                                      color if flags & 0b0010000000000000 > 0 else unlit_color)
+    __diagonal_bar(x+w+1, y+w+1, x+w+l, y+w+4+l*2, w,                   color if flags & 0b0001000000000000 > 0 else unlit_color)
+    __vertical_bar(x+w+l+1, y+2, l*2, w,                                color if flags & 0b0000100000000000 > 0 else unlit_color)
+    __diagonal_bar(x+w*2+l*2+1, y+w+1, x+w*2+l+2, y+w+4+l*2, w,         color if flags & 0b0000010000000000 > 0 else unlit_color)
+    __vertical_bar(x+w*2+l*2+2, y+2, l*2, w,                            color if flags & 0b0000001000000000 > 0 else unlit_color)
+    __horizontal_bar(x, y+w+4+l*2, l, w,                                color if flags & 0b0000000100000000 > 0 else unlit_color)
+    __horizontal_bar(x+w+l+1, y+w+4+l*2, l, w,                          color if flags & 0b0000000010000000 > 0 else unlit_color)
+    __vertical_bar(x, y+w+7+l*2, l*2, w,                                color if flags & 0b0000000001000000 > 0 else unlit_color)
+    __diagonal_bar(x+w+l, y+w*2+5+l*2, x+w+1, y+w*2+7+l*4, w,           color if flags & 0b0000000000100000 > 0 else unlit_color)
+    __vertical_bar(x+w+l+1, y+w+7+l*2, l*2, w,                          color if flags & 0b0000000000010000 > 0 else unlit_color)
+    __diagonal_bar(x+w*2+l+2, y+w*2+5+l*2, x+w*2+l*2+1, y+w*2+7+l*4, w, color if flags & 0b0000000000001000 > 0 else unlit_color)
+    __vertical_bar(x+w*2+3+l*2, y+w+7+l*2, l*2, w,                      color if flags & 0b0000000000000100 > 0 else unlit_color)
+    __horizontal_bar(x, y+w*2+8+l*4, l, w,                              color if flags & 0b0000000000000010 > 0 else unlit_color)
+    __horizontal_bar(x+w+l+1, y+w*2+8+l*4, l, w,                        color if flags & 0b0000000000000001 > 0 else unlit_color)
 
 def __calc_16seg_character_width(l, w):
     return l * 2 + w * 3 + 2
@@ -113,7 +113,7 @@ def textWidth(txt):
     # TODO
     pass
 
-def attrib16seg(length, width, color, *, blank_color=-1, letter_spacing=None, rotate=0):
+def attrib16seg(length, width, color, *, unlit_color=-1, letter_spacing=None, rotate=0):
     """
     Set attributes of the 16-segment font.
 
@@ -126,7 +126,7 @@ def attrib16seg(length, width, color, *, blank_color=-1, letter_spacing=None, ro
         Segment width.
     color : int
         Text color.
-    blank_color : int
+    unlit_color : int
         Color of unlit segments.
     letter_spacing : int
         Distance between characters.
@@ -134,7 +134,7 @@ def attrib16seg(length, width, color, *, blank_color=-1, letter_spacing=None, ro
         Font rotation angle.
         Only accepts 0, 90, 180 and 270.
     """
-    global _length, _width, _color, _blank_color, _letter_spacing, _rotate
+    global _length, _width, _color, _unlit_color, _letter_spacing, _rotate
 
     if length < 3:
         length = 3
@@ -146,8 +146,8 @@ def attrib16seg(length, width, color, *, blank_color=-1, letter_spacing=None, ro
     _length = length
     _width = width
     _color = color
-    if blank_color != -1:
-        _blank_color = blank_color
+    if unlit_color != -1:
+        _unlit_color = unlit_color
     if letter_spacing is not None:
         if letter_spacing < 0:
             letter_spacing = 0
@@ -155,7 +155,7 @@ def attrib16seg(length, width, color, *, blank_color=-1, letter_spacing=None, ro
     if rotate in (0, 90, 180, 270):  # TODO
         _rotate = rotate
 
-def text(x, y, txt, *, color=None, blank_color=None):
+def text(x, y, txt, *, color=None, unlit_color=None):
     """
     Display the string txt as 16-segment at position (x, y).
 
@@ -170,15 +170,15 @@ def text(x, y, txt, *, color=None, blank_color=None):
         Only supported characters are displayed. Other characters are displayed as spaces.
     color : int
         Text color.
-    blank_color : int
+    unlit_color : int
         Color of unlit segments.
     """
     if color is None:
         color = _color
-    if blank_color is None:
-        blank_color = _blank_color
+    if unlit_color is None:
+        unlit_color = _unlit_color
 
     for c in txt:
         character = __CHARACTERS.get(ord(c), __CHARACTERS[__DEFAULT_CHARACTER_CODE])
-        __draw_16seg(x, y, _length, _width, character['f'], color, blank_color)
+        __draw_16seg(x, y, _length, _width, character['f'], color, unlit_color)
         x += __calc_16seg_character_width(_length, _width) + _letter_spacing
