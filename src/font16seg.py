@@ -263,5 +263,12 @@ def text(x, y, txt, *, color=None, unlit_color=None):
     for c in txt:
         character = __CHARACTERS.get(ord(c), __CHARACTERS[__DEFAULT_CHARACTER_CODE])
         __draw_16seg(x, y, _length, _width, character['f'], color, unlit_color)
-        # TODO
-        x += __calc_16seg_character_width(_length, _width) + _letter_spacing
+        delta = __calc_16seg_character_width(_length, _width) + _letter_spacing
+        if _rotate == 0:
+            x += delta
+        elif _rotate == 90:
+            y += delta
+        elif _rotate == 180:
+            x -= delta
+        elif _rotate == 270:
+            y -= delta
