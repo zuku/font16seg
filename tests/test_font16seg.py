@@ -67,7 +67,7 @@ class TestFont16seg(unittest.TestCase):
         self.assertEqual(font16seg._rotate, 270)
 
         font16seg.resetAttributes()
-        self.assertEqual(font16seg._length, 8)
+        self.assertEqual(font16seg._length, 4)
         self.assertEqual(font16seg._width, 2)
         self.assertEqual(font16seg._color, lcd.get_fg())
         self.assertIsNone(font16seg._unlit_color)
