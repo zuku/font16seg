@@ -161,10 +161,23 @@ def __draw_16seg(x, y, l, w, flags, color, unlit_color=None):
         __vertical_bar(x-w*3-l*2-2, y-w*3-l*4-6, l*2, w,                      __color(color, unlit_color, flags, 14))
         __horizontal_bar(x-w*2-l, y-w*3-l*4-8, l, w,                          __color(color, unlit_color, flags, 15))
         __horizontal_bar(x-w*3-l*2-2, y-w*3-l*4-8, l, w,                      __color(color, unlit_color, flags, 16))
-        pass
     elif _rotate == 270:
-        # TODO
-        pass
+        __vertical_bar(x, y-w*2-l, l, w,                                      __color(color, unlit_color, flags, 1))
+        __vertical_bar(x, y-w*3-l*2-2, l, w,                                  __color(color, unlit_color, flags, 2))
+        __horizontal_bar(x+2, y-w, l*2, w,                                    __color(color, unlit_color, flags, 3))
+        __diagonal_bar_h(x+w+l*2+3, y-w-l, x+w+1, y-w-1, w,                   __color(color, unlit_color, flags, 4))
+        __horizontal_bar(x+2, y-w*2-l-1, l*2, w,                              __color(color, unlit_color, flags, 5))
+        __diagonal_bar_h(x+w+l*2+3, y-w*2-l-2, x+w+1, y-w*2-l*2-1, w,         __color(color, unlit_color, flags, 6))
+        __horizontal_bar(x+2, y-w*3-l*2-2, l*2, w,                            __color(color, unlit_color, flags, 7))
+        __vertical_bar(x+w+l*2+4, y-w*2-l, l, w,                              __color(color, unlit_color, flags, 8))
+        __vertical_bar(x+w+l*2+4, y-w*3-l*2-2, l, w,                          __color(color, unlit_color, flags, 9))
+        __horizontal_bar(x+w+l*2+6, y-w, l*2, w,                              __color(color, unlit_color, flags, 10))
+        __diagonal_bar_h(x+w*2+l*4+7, y-w-1, x+w*2+l*2+5, y-w-l, w,           __color(color, unlit_color, flags, 11))
+        __horizontal_bar(x+w+l*2+6, y-w*2-l-1, l*2, w,                        __color(color, unlit_color, flags, 12))
+        __diagonal_bar_h(x+w*2+l*4+7, y-w*2-l*2-1, x+w*2+l*2+5, y-w*2-l-2, w, __color(color, unlit_color, flags, 13))
+        __horizontal_bar(x+w+l*2+6, y-w*3-l*2-2, l*2, w,                      __color(color, unlit_color, flags, 14))
+        __vertical_bar(x+w*2+l*4+8, y-w*2-l, l, w,                            __color(color, unlit_color, flags, 15))
+        __vertical_bar(x+w*2+l*4+8, y-w*3-l*2-2, l, w,                        __color(color, unlit_color, flags, 16))
 
 def __calc_16seg_character_width(l, w):
     return l * 2 + w * 3 + 2
