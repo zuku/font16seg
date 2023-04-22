@@ -1,6 +1,7 @@
 from m5stack import lcd
 
 __TYPE_16SEG = 0
+__TYPE_COLON = 1
 
 __CHARACTERS = {
     0x20: (__TYPE_16SEG, 0b0000000000000000),  # [SP]
@@ -19,6 +20,8 @@ __CHARACTERS = {
     0x37: (__TYPE_16SEG, 0b1110001000000100),  # 7
     0x38: (__TYPE_16SEG, 0b1110001111000111),  # 8
     0x39: (__TYPE_16SEG, 0b1110001110000111),  # 9
+    0x3A: (__TYPE_COLON, 0b1),                 # :
+    0x3B: (__TYPE_COLON, 0b0),                 # ;
     0x3C: (__TYPE_16SEG, 0b0000010000001000),  # <
     0x3E: (__TYPE_16SEG, 0b0001000000100000),  # >
     0x41: (__TYPE_16SEG, 0b1110001111000100),  # A
@@ -179,11 +182,33 @@ def __draw_16seg(x, y, l, w, flags, color, unlit_color=None):
         __vertical_bar(x+w*2+l*4+8, y-w*2-l, l, w,                            __color(color, unlit_color, flags, 15))
         __vertical_bar(x+w*2+l*4+8, y-w*3-l*2-2, l, w,                        __color(color, unlit_color, flags, 16))
 
+def __draw_colon(x, y, l, w, flags, color, unlit_color=None):
+    if flags < 1:
+        if unlit_color is None:
+            return
+        color = unlit_color
+    r = round(w / 2)
+    if _rotate == 0:
+        lcd.circle(x+r, y+w+l+2, r, color, color)
+        lcd.circle(x+r, y+w*2+l*3+6, r, color, color)
+    elif _rotate == 90:
+        lcd.circle(x-w-l-2, y+r, r, color, color)
+        lcd.circle(x-w*2-l*3-6, y+r, r, color, color)
+    elif _rotate == 180:
+        lcd.circle(x-r, y-w-l-2, r, color, color)
+        lcd.circle(x-r, y-w*2-l*3-6, r, color, color)
+    elif _rotate == 270:
+        lcd.circle(x+w+l+2, y-r, r, color, color)
+        lcd.circle(x+w*2+l*3+6, y-r, r, color, color)
+
 def __calc_16seg_character_width(l, w):
     return l * 2 + w * 3 + 2
 
 def __calc_16seg_character_height(l, w):
     return l * 4 + w * 3 + 8
+
+def __calc_colon_width(w):
+    return round(w / 2) * 2
 
 def fontSize():
     """
@@ -212,10 +237,15 @@ def textWidth(txt):
         The width of the given string.
     """
     width = 0
-    text_length = len(txt)
-    width += __calc_16seg_character_width(_length, _width) * text_length
-    if text_length > 0:
-        width += _letter_spacing * (text_length - 1)
+    for c in txt:
+        character = __CHARACTERS.get(ord(c), __CHARACTERS[__DEFAULT_CHARACTER_CODE])
+        if character[0] == __TYPE_16SEG:
+            width += __calc_16seg_character_width(_length, _width)
+        elif character[0] == __TYPE_COLON:
+            width += __calc_colon_width(_width)
+        width += _letter_spacing
+    if width > 0:
+        width -= _letter_spacing
     return width
 
 def attrib16seg(length, width, color, *, unlit_color=-1, letter_spacing=None, rotate=None):
@@ -290,8 +320,14 @@ def text(x, y, txt, *, color=None, unlit_color=None):
 
     for c in txt:
         character = __CHARACTERS.get(ord(c), __CHARACTERS[__DEFAULT_CHARACTER_CODE])
-        __draw_16seg(x, y, _length, _width, character[1], color, unlit_color)
-        delta = __calc_16seg_character_width(_length, _width) + _letter_spacing
+        delta = 0
+        if character[0] == __TYPE_16SEG:
+            __draw_16seg(x, y, _length, _width, character[1], color, unlit_color)
+            delta += __calc_16seg_character_width(_length, _width)
+        elif character[0] == __TYPE_COLON:
+            __draw_colon(x, y, _length, _width, character[1], color, unlit_color)
+            delta += __calc_colon_width(_width)
+        delta += _letter_spacing
         if _rotate == 0:
             x += delta
         elif _rotate == 90:

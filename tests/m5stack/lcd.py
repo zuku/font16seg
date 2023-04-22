@@ -43,8 +43,11 @@ def screensize():
 def get_fg():
     return WHITE
 
-def triangle(x, y, x1, y1, color, fillcolor=None):
+def triangle(x, y, x1, y1, color=None, fillcolor=None):
     pass
 
-def rect(x, y, w, h, color, fillcolor=None):
+def rect(x, y, w, h, color=None, fillcolor=None):
+    pass
+
+def circle(x, y, r, color=None, fillcolor=None):
     pass
