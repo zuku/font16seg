@@ -92,29 +92,92 @@ def __vertical_bar(x, y, l, w, color):
     lcd.triangle(x+hw, y+w+l+hw, x+1, y+w+l, x+w-1, y+w+l, color, color)
     lcd.rect(x, y+w, w, l, color, color)
 
-def __diagonal_bar(x1, y1, x2, y2, w, color):
+def __diagonal_bar_v(x1, y1, x2, y2, w, color):
     if color is None:
         return
     lcd.triangle(x1, y1, x1, y1+w, x2, y2, color, color)
     lcd.triangle(x2, y2, x2, y2-w, x1, y1, color, color)
 
+def __diagonal_bar_h(x1, y1, x2, y2, w, color):
+    if color is None:
+        return
+    lcd.triangle(x1, y1, x1-w, y1, x2, y2, color, color)
+    lcd.triangle(x2, y2, x2+w, y2, x1, y1, color, color)
+
+def __color(color, unlit_color, flags, segment):
+    if flags & (1 << (16 - segment)) > 0:
+        return color
+    return unlit_color
+
 def __draw_16seg(x, y, l, w, flags, color, unlit_color=None):
-    __horizontal_bar(x, y, l, w,                                        color if flags & 0b1000000000000000 > 0 else unlit_color)
-    __horizontal_bar(x+w+l+1, y, l, w,                                  color if flags & 0b0100000000000000 > 0 else unlit_color)
-    __vertical_bar(x, y+2, l*2, w,                                      color if flags & 0b0010000000000000 > 0 else unlit_color)
-    __diagonal_bar(x+w+1, y+w+1, x+w+l, y+w+4+l*2, w,                   color if flags & 0b0001000000000000 > 0 else unlit_color)
-    __vertical_bar(x+w+l+1, y+2, l*2, w,                                color if flags & 0b0000100000000000 > 0 else unlit_color)
-    __diagonal_bar(x+w*2+l*2+1, y+w+1, x+w*2+l+2, y+w+4+l*2, w,         color if flags & 0b0000010000000000 > 0 else unlit_color)
-    __vertical_bar(x+w*2+l*2+2, y+2, l*2, w,                            color if flags & 0b0000001000000000 > 0 else unlit_color)
-    __horizontal_bar(x, y+w+4+l*2, l, w,                                color if flags & 0b0000000100000000 > 0 else unlit_color)
-    __horizontal_bar(x+w+l+1, y+w+4+l*2, l, w,                          color if flags & 0b0000000010000000 > 0 else unlit_color)
-    __vertical_bar(x, y+w+7+l*2, l*2, w,                                color if flags & 0b0000000001000000 > 0 else unlit_color)
-    __diagonal_bar(x+w+l, y+w*2+5+l*2, x+w+1, y+w*2+7+l*4, w,           color if flags & 0b0000000000100000 > 0 else unlit_color)
-    __vertical_bar(x+w+l+1, y+w+7+l*2, l*2, w,                          color if flags & 0b0000000000010000 > 0 else unlit_color)
-    __diagonal_bar(x+w*2+l+2, y+w*2+5+l*2, x+w*2+l*2+1, y+w*2+7+l*4, w, color if flags & 0b0000000000001000 > 0 else unlit_color)
-    __vertical_bar(x+w*2+3+l*2, y+w+7+l*2, l*2, w,                      color if flags & 0b0000000000000100 > 0 else unlit_color)
-    __horizontal_bar(x, y+w*2+8+l*4, l, w,                              color if flags & 0b0000000000000010 > 0 else unlit_color)
-    __horizontal_bar(x+w+l+1, y+w*2+8+l*4, l, w,                        color if flags & 0b0000000000000001 > 0 else unlit_color)
+    if _rotate == 0:
+        __horizontal_bar(x, y, l, w,                                          __color(color, unlit_color, flags, 1))
+        __horizontal_bar(x+w+l+1, y, l, w,                                    __color(color, unlit_color, flags, 2))
+        __vertical_bar(x, y+2, l*2, w,                                        __color(color, unlit_color, flags, 3))
+        __diagonal_bar_v(x+w+1, y+w+1, x+w+l, y+w+l*2+4, w,                   __color(color, unlit_color, flags, 4))
+        __vertical_bar(x+w+l+1, y+2, l*2, w,                                  __color(color, unlit_color, flags, 5))
+        __diagonal_bar_v(x+w*2+l*2+1, y+w+1, x+w*2+l+2, y+w+l*2+4, w,         __color(color, unlit_color, flags, 6))
+        __vertical_bar(x+w*2+l*2+2, y+2, l*2, w,                              __color(color, unlit_color, flags, 7))
+        __horizontal_bar(x, y+w+l*2+4, l, w,                                  __color(color, unlit_color, flags, 8))
+        __horizontal_bar(x+w+l+1, y+w+l*2+4, l, w,                            __color(color, unlit_color, flags, 9))
+        __vertical_bar(x, y+w+l*2+7, l*2, w,                                  __color(color, unlit_color, flags, 10))
+        __diagonal_bar_v(x+w+l, y+w*2+l*2+5, x+w+1, y+w*2+l*4+7, w,           __color(color, unlit_color, flags, 11))
+        __vertical_bar(x+w+l+1, y+w+l*2+7, l*2, w,                            __color(color, unlit_color, flags, 12))
+        __diagonal_bar_v(x+w*2+l+2, y+w*2+l*2+5, x+w*2+l*2+1, y+w*2+l*4+7, w, __color(color, unlit_color, flags, 13))
+        __vertical_bar(x+w*2+l*2+3, y+w+l*2+7, l*2, w,                        __color(color, unlit_color, flags, 14))
+        __horizontal_bar(x, y+w*2+l*4+8, l, w,                                __color(color, unlit_color, flags, 15))
+        __horizontal_bar(x+w+l+1, y+w*2+l*4+8, l, w,                          __color(color, unlit_color, flags, 16))
+    elif _rotate == 90:
+        __vertical_bar(x-w, y, l, w,                                          __color(color, unlit_color, flags, 1))
+        __vertical_bar(x-w, y+w+l+1, l, w,                                    __color(color, unlit_color, flags, 2))
+        __horizontal_bar(x-w*2-l*2-2, y, l*2, w,                              __color(color, unlit_color, flags, 3))
+        __diagonal_bar_h(x-w-1, y+w+1, x-w-l*2-4, y+w+l, w,                   __color(color, unlit_color, flags, 4))
+        __horizontal_bar(x-w*2-l*2-2, y+w+l+1, l*2, w,                        __color(color, unlit_color, flags, 5))
+        __diagonal_bar_h(x-w-1, y+w*2+l*2+1, x-w-l*2-4, y+w*2+l+2, w,         __color(color, unlit_color, flags, 6))
+        __horizontal_bar(x-w*2-l*2-2, y+w*2+l*2+2, l*2, w,                    __color(color, unlit_color, flags, 7))
+        __vertical_bar(x-w*2-l*2-4, y, l, w,                                  __color(color, unlit_color, flags, 8))
+        __vertical_bar(x-w*2-l*2-4, y+w+l+1, l, w,                            __color(color, unlit_color, flags, 9))
+        __horizontal_bar(x-w*3-l*4-6, y, l*2, w,                              __color(color, unlit_color, flags, 10))
+        __diagonal_bar_h(x-w*2-l*2-5, y+w+l, x-w*2-l*4-5, y+w+1, w,           __color(color, unlit_color, flags, 11))
+        __horizontal_bar(x-w*3-l*4-6, y+w+l+1, l*2, w,                        __color(color, unlit_color, flags, 12))
+        __diagonal_bar_h(x-w*2-l*2-5, y+w*2+l+2, x-w*2-l*4-5, y+w*2+l*2+1, w, __color(color, unlit_color, flags, 13))
+        __horizontal_bar(x-w*3-l*4-6, y+w*2+l*2+2, l*2, w,                    __color(color, unlit_color, flags, 14))
+        __vertical_bar(x-w*3-l*4-8, y, l, w,                                  __color(color, unlit_color, flags, 15))
+        __vertical_bar(x-w*3-l*4-8, y+w+l+1, l, w,                            __color(color, unlit_color, flags, 16))
+    elif _rotate == 180:
+        __horizontal_bar(x-w*2-l, y-w, l, w,                                  __color(color, unlit_color, flags, 1))
+        __horizontal_bar(x-w*3-l*2-2, y-w, l, w,                              __color(color, unlit_color, flags, 2))
+        __vertical_bar(x-w, y-w*2-l*2-2, l*2, w,                              __color(color, unlit_color, flags, 3))
+        __diagonal_bar_v(x-w-l, y-w-l*2-3, x-w-1, y-w-1, w,                   __color(color, unlit_color, flags, 4))
+        __vertical_bar(x-w*2-l-1, y-w*2-l*2-2, l*2, w,                        __color(color, unlit_color, flags, 5))
+        __diagonal_bar_v(x-w*2-l-2, y-w-l*2-3, x-w*2-l*2-1, y-w-1, w,         __color(color, unlit_color, flags, 6))
+        __vertical_bar(x-w*3-l*2-2, y-w*2-l*2-2, l*2, w,                      __color(color, unlit_color, flags, 7))
+        __horizontal_bar(x-w*2-l, y-w*2-l*2-4, l, w,                          __color(color, unlit_color, flags, 8))
+        __horizontal_bar(x-w*3-l*2-2, y-w*2-l*2-4, l, w,                      __color(color, unlit_color, flags, 9))
+        __vertical_bar(x-w, y-w*3-l*4-6, l*2, w,                              __color(color, unlit_color, flags, 10))
+        __diagonal_bar_v(x-w-1, y-w*2-l*4-7, x-w-l, y-w*2-l*2-5, w,           __color(color, unlit_color, flags, 11))
+        __vertical_bar(x-w*2-l-1, y-w*3-l*4-6, l*2, w,                        __color(color, unlit_color, flags, 12))
+        __diagonal_bar_v(x-w*2-l*2-1, y-w*2-l*4-7, x-w*2-l-2, y-w*2-l*2-5, w, __color(color, unlit_color, flags, 13))
+        __vertical_bar(x-w*3-l*2-2, y-w*3-l*4-6, l*2, w,                      __color(color, unlit_color, flags, 14))
+        __horizontal_bar(x-w*2-l, y-w*3-l*4-8, l, w,                          __color(color, unlit_color, flags, 15))
+        __horizontal_bar(x-w*3-l*2-2, y-w*3-l*4-8, l, w,                      __color(color, unlit_color, flags, 16))
+    elif _rotate == 270:
+        __vertical_bar(x, y-w*2-l, l, w,                                      __color(color, unlit_color, flags, 1))
+        __vertical_bar(x, y-w*3-l*2-2, l, w,                                  __color(color, unlit_color, flags, 2))
+        __horizontal_bar(x+2, y-w, l*2, w,                                    __color(color, unlit_color, flags, 3))
+        __diagonal_bar_h(x+w+l*2+3, y-w-l, x+w+1, y-w-1, w,                   __color(color, unlit_color, flags, 4))
+        __horizontal_bar(x+2, y-w*2-l-1, l*2, w,                              __color(color, unlit_color, flags, 5))
+        __diagonal_bar_h(x+w+l*2+3, y-w*2-l-2, x+w+1, y-w*2-l*2-1, w,         __color(color, unlit_color, flags, 6))
+        __horizontal_bar(x+2, y-w*3-l*2-2, l*2, w,                            __color(color, unlit_color, flags, 7))
+        __vertical_bar(x+w+l*2+4, y-w*2-l, l, w,                              __color(color, unlit_color, flags, 8))
+        __vertical_bar(x+w+l*2+4, y-w*3-l*2-2, l, w,                          __color(color, unlit_color, flags, 9))
+        __horizontal_bar(x+w+l*2+6, y-w, l*2, w,                              __color(color, unlit_color, flags, 10))
+        __diagonal_bar_h(x+w*2+l*4+7, y-w-1, x+w*2+l*2+5, y-w-l, w,           __color(color, unlit_color, flags, 11))
+        __horizontal_bar(x+w+l*2+6, y-w*2-l-1, l*2, w,                        __color(color, unlit_color, flags, 12))
+        __diagonal_bar_h(x+w*2+l*4+7, y-w*2-l*2-1, x+w*2+l*2+5, y-w*2-l-2, w, __color(color, unlit_color, flags, 13))
+        __horizontal_bar(x+w+l*2+6, y-w*3-l*2-2, l*2, w,                      __color(color, unlit_color, flags, 14))
+        __vertical_bar(x+w*2+l*4+8, y-w*2-l, l, w,                            __color(color, unlit_color, flags, 15))
+        __vertical_bar(x+w*2+l*4+8, y-w*3-l*2-2, l, w,                        __color(color, unlit_color, flags, 16))
 
 def __calc_16seg_character_width(l, w):
     return l * 2 + w * 3 + 2
@@ -155,7 +218,7 @@ def textWidth(txt):
         width += _letter_spacing * (text_length - 1)
     return width
 
-def attrib16seg(length, width, color, *, unlit_color=-1, letter_spacing=None, rotate=0):
+def attrib16seg(length, width, color, *, unlit_color=-1, letter_spacing=None, rotate=None):
     """
     Set attributes of the 16-segment font.
 
@@ -176,7 +239,7 @@ def attrib16seg(length, width, color, *, unlit_color=-1, letter_spacing=None, ro
         Distance between characters.
     rotate : int
         Font rotation angle.
-        Only accepts 0, 90, 180 and 270.
+        Only accepts 0, 90, 180 or 270.
     """
     global _length, _width, _color, _unlit_color, _letter_spacing, _rotate
 
@@ -196,8 +259,11 @@ def attrib16seg(length, width, color, *, unlit_color=-1, letter_spacing=None, ro
         if letter_spacing < 0:
             letter_spacing = 0
         _letter_spacing = letter_spacing
-    if rotate in (0, 90, 180, 270):  # TODO
-        _rotate = rotate
+    if rotate is not None:
+        if rotate in (0, 90, 180, 270):
+            _rotate = rotate
+        else:
+            raise ValueError("rotate parameter only accepts 0, 90, 180 or 270")
 
 def text(x, y, txt, *, color=None, unlit_color=None):
     """
@@ -225,4 +291,12 @@ def text(x, y, txt, *, color=None, unlit_color=None):
     for c in txt:
         character = __CHARACTERS.get(ord(c), __CHARACTERS[__DEFAULT_CHARACTER_CODE])
         __draw_16seg(x, y, _length, _width, character['f'], color, unlit_color)
-        x += __calc_16seg_character_width(_length, _width) + _letter_spacing
+        delta = __calc_16seg_character_width(_length, _width) + _letter_spacing
+        if _rotate == 0:
+            x += delta
+        elif _rotate == 90:
+            y += delta
+        elif _rotate == 180:
+            x -= delta
+        elif _rotate == 270:
+            y -= delta
