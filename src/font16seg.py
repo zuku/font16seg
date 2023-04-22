@@ -145,7 +145,22 @@ def __draw_16seg(x, y, l, w, flags, color, unlit_color=None):
         __vertical_bar(x-w*3-l*4-8, y, l, w,                                  __color(color, unlit_color, flags, 15))
         __vertical_bar(x-w*3-l*4-8, y+w+l+1, l, w,                            __color(color, unlit_color, flags, 16))
     elif _rotate == 180:
-        # TODO
+        __horizontal_bar(x-w*2-l, y-w, l, w,                                  __color(color, unlit_color, flags, 1))
+        __horizontal_bar(x-w*3-l*2-2, y-w, l, w,                              __color(color, unlit_color, flags, 2))
+        __vertical_bar(x-w, y-w*2-l*2-2, l*2, w,                              __color(color, unlit_color, flags, 3))
+        __diagonal_bar_v(x-w-l, y-w-l*2-3, x-w-1, y-w-1, w,                   __color(color, unlit_color, flags, 4))
+        __vertical_bar(x-w*2-l-1, y-w*2-l*2-2, l*2, w,                        __color(color, unlit_color, flags, 5))
+        __diagonal_bar_v(x-w*2-l-2, y-w-l*2-3, x-w*2-l*2-1, y-w-1, w,         __color(color, unlit_color, flags, 6))
+        __vertical_bar(x-w*3-l*2-2, y-w*2-l*2-2, l*2, w,                      __color(color, unlit_color, flags, 7))
+        __horizontal_bar(x-w*2-l, y-w*2-l*2-4, l, w,                          __color(color, unlit_color, flags, 8))
+        __horizontal_bar(x-w*3-l*2-2, y-w*2-l*2-4, l, w,                      __color(color, unlit_color, flags, 9))
+        __vertical_bar(x-w, y-w*3-l*4-6, l*2, w,                              __color(color, unlit_color, flags, 10))
+        __diagonal_bar_v(x-w-1, y-w*2-l*4-7, x-w-l, y-w*2-l*2-5, w,           __color(color, unlit_color, flags, 11))
+        __vertical_bar(x-w*2-l-1, y-w*3-l*4-6, l*2, w,                        __color(color, unlit_color, flags, 12))
+        __diagonal_bar_v(x-w*2-l*2-1, y-w*2-l*4-7, x-w*2-l-2, y-w*2-l*2-5, w, __color(color, unlit_color, flags, 13))
+        __vertical_bar(x-w*3-l*2-2, y-w*3-l*4-6, l*2, w,                      __color(color, unlit_color, flags, 14))
+        __horizontal_bar(x-w*2-l, y-w*3-l*4-8, l, w,                          __color(color, unlit_color, flags, 15))
+        __horizontal_bar(x-w*3-l*2-2, y-w*3-l*4-8, l, w,                      __color(color, unlit_color, flags, 16))
         pass
     elif _rotate == 270:
         # TODO
