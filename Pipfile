@@ -13,3 +13,4 @@ python_version = "3.11"
 [scripts]
 test = 'bash -c "export PYTHONPATH=\"./src:./tests:$PYTHONPATH\"; python -m unittest discover -v -s tests"'
 build = './scripts/build.sh'
+package = './scripts/package.sh'
