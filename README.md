@@ -5,3 +5,8 @@
 ```
 $ pipenv run test
 ```
+
+## Build
+```
+$ pipenv run build
+```
