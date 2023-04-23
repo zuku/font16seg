@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - add-release-workflow
 
 env:
   MICROPYTHON_URL: "https://github.com/micropython/micropython/archive/refs/tags/v1.12.tar.gz"
