@@ -133,6 +133,30 @@ class TestFont16seg(unittest.TestCase):
         self.assertEqual(lcd.rect.call_count, 16)
         lcd.circle.assert_not_called()
 
+    def test_text_with_period(self):
+        lcd.screensize = MagicMock(return_value=(136, 241))
+        lcd.triangle = MagicMock()
+        lcd.rect = MagicMock()
+        lcd.circle = MagicMock()
+
+        font16seg.attrib16seg(8, 2, lcd.WHITE, unlit_color=None)
+        font16seg.text(0, 0, "0.0")
+        self.assertEqual(lcd.triangle.call_count, 40)
+        self.assertEqual(lcd.rect.call_count, 16)
+        self.assertEqual(lcd.circle.call_count, 1)
+
+    def test_text_with_comma(self):
+        lcd.screensize = MagicMock(return_value=(136, 241))
+        lcd.triangle = MagicMock()
+        lcd.rect = MagicMock()
+        lcd.circle = MagicMock()
+
+        font16seg.attrib16seg(8, 2, lcd.WHITE, unlit_color=None)
+        font16seg.text(0, 0, "0,0")
+        self.assertEqual(lcd.triangle.call_count, 40)
+        self.assertEqual(lcd.rect.call_count, 16)
+        lcd.circle.assert_not_called()
+
     def test_fontSize(self):
         font16seg.attrib16seg(10, 8, lcd.WHITE)
         self.assertEqual(font16seg.fontSize(), (46, 72))
@@ -164,3 +188,11 @@ class TestFont16seg(unittest.TestCase):
     def test_textWidth_with_colon_only(self):
         font16seg.attrib16seg(10, 8, lcd.WHITE, letter_spacing=1)
         self.assertEqual(font16seg.textWidth(":"), 8)
+
+    def test_textWidth_with_period(self):
+        font16seg.attrib16seg(10, 8, lcd.WHITE, letter_spacing=2)
+        self.assertEqual(font16seg.textWidth("100.0"), 46*4+8+2*4)
+
+    def test_textWidth_with_period_only(self):
+        font16seg.attrib16seg(10, 8, lcd.WHITE, letter_spacing=1)
+        self.assertEqual(font16seg.textWidth("."), 8)
