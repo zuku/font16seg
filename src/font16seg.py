@@ -2,13 +2,16 @@ from m5stack import lcd
 
 __TYPE_16SEG = 0
 __TYPE_COLON = 1
+__TYPE_DOT   = 2
 
 __CHARACTERS = {
     0x20: (__TYPE_16SEG, 0b0000000000000000),  # [SP]
     0x25: (__TYPE_16SEG, 0b1010110110110101),  # %
     0x2A: (__TYPE_16SEG, 0b0001110110111000),  # *
     0x2B: (__TYPE_16SEG, 0b0000100110010000),  # +
+    0x2C: (__TYPE_DOT,   0b0),                 # ,
     0x2D: (__TYPE_16SEG, 0b0000000110000000),  # -
+    0x2E: (__TYPE_DOT,   0b1),                 # .
     0x2F: (__TYPE_16SEG, 0b0000010000100000),  # /
     0x30: (__TYPE_16SEG, 0b1110011001100111),  # 0
     0x31: (__TYPE_16SEG, 0b0000100000010000),  # 1
@@ -201,6 +204,21 @@ def __draw_colon(x, y, l, w, flags, color, unlit_color=None):
         lcd.circle(x+w+l+2, y-r, r, color, color)
         lcd.circle(x+w*2+l*3+6, y-r, r, color, color)
 
+def __draw_dot(x, y, l, w, flags, color, unlit_color=None):
+    if flags < 1:
+        if unlit_color is None:
+            return
+        color = unlit_color
+    r = round(w / 2)
+    if _rotate == 0:
+        lcd.circle(x+r, y+w*3+l*4+8-r, r, color, color)
+    elif _rotate == 90:
+        lcd.circle(x-w*3-l*4-8+r, y+r, r, color, color)
+    elif _rotate == 180:
+        lcd.circle(x-r, y-w*3-l*4-8+r, r, color, color)
+    elif _rotate == 270:
+        lcd.circle(x+w*3+l*4+8-r, y-r, r, color, color)
+
 def __calc_16seg_character_width(l, w):
     return l * 2 + w * 3 + 2
 
@@ -208,6 +226,9 @@ def __calc_16seg_character_height(l, w):
     return l * 4 + w * 3 + 8
 
 def __calc_colon_width(w):
+    return round(w / 2) * 2
+
+def __calc_dot_width(w):
     return round(w / 2) * 2
 
 def fontSize():
@@ -243,6 +264,8 @@ def textWidth(txt):
             width += __calc_16seg_character_width(_length, _width)
         elif character[0] == __TYPE_COLON:
             width += __calc_colon_width(_width)
+        elif character[0] == __TYPE_DOT:
+            width += __calc_dot_width(_width)
         width += _letter_spacing
     if width > 0:
         width -= _letter_spacing
@@ -327,6 +350,9 @@ def text(x, y, txt, *, color=None, unlit_color=None):
         elif character[0] == __TYPE_COLON:
             __draw_colon(x, y, _length, _width, character[1], color, unlit_color)
             delta += __calc_colon_width(_width)
+        elif character[0] == __TYPE_DOT:
+            __draw_dot(x, y, _length, _width, character[1], color, unlit_color)
+            delta += __calc_dot_width(_width)
         delta += _letter_spacing
         if _rotate == 0:
             x += delta
