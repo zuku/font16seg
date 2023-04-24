@@ -362,3 +362,18 @@ def text(x, y, txt, *, color=None, unlit_color=None):
             x -= delta
         elif _rotate == 270:
             y -= delta
+
+def assign(code, flags):
+    """
+    Assign a glyph to a specific character code.
+
+    Parameters
+    ----------
+    code : int
+        Character code to assign the glyph.
+    flags : int
+        16-bit flags which segment is to be lit.
+    """
+    if flags < 0 or flags > 0b1111111111111111:
+        raise ValueError('flags must be in the range of 0-65535')
+    __CHARACTERS[code] = (__TYPE_16SEG, flags)
