@@ -208,6 +208,28 @@ class TestFont16seg(unittest.TestCase):
         self.assertEqual(lcd.triangle.call_count, 14)
         self.assertEqual(lcd.rect.call_count, 7)
 
+    def test_assign_min(self):
+        lcd.screensize = MagicMock(return_value=(136, 241))
+        lcd.triangle = MagicMock()
+        lcd.rect = MagicMock()
+
+        font16seg.attrib16seg(8, 2, lcd.WHITE, unlit_color=None)
+        font16seg.assign(ord("x"), 0)
+        font16seg.text(0, 0, "x")
+        lcd.triangle.assert_not_called()
+        lcd.rect.assert_not_called()
+
+    def test_assign_max(self):
+        lcd.screensize = MagicMock(return_value=(136, 241))
+        lcd.triangle = MagicMock()
+        lcd.rect = MagicMock()
+
+        font16seg.attrib16seg(8, 2, lcd.WHITE, unlit_color=None)
+        font16seg.assign(ord("x"), 0b1111111111111111)
+        font16seg.text(0, 0, "x")
+        self.assertEqual(lcd.triangle.call_count, 32)
+        self.assertEqual(lcd.rect.call_count, 12)
+
     def test_assign_out_of_range(self):
         with self.assertRaises(ValueError):
             font16seg.assign(ord("x"), -1)
