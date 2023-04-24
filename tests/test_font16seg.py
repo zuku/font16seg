@@ -196,3 +196,40 @@ class TestFont16seg(unittest.TestCase):
     def test_textWidth_with_period_only(self):
         font16seg.attrib16seg(10, 8, lcd.WHITE, letter_spacing=1)
         self.assertEqual(font16seg.textWidth("."), 8)
+
+    def test_assign(self):
+        lcd.screensize = MagicMock(return_value=(136, 241))
+        lcd.triangle = MagicMock()
+        lcd.rect = MagicMock()
+
+        font16seg.attrib16seg(8, 2, lcd.WHITE, unlit_color=None)
+        font16seg.assign(ord("d"), 0b0000001111000111)
+        font16seg.text(0, 0, "d")
+        self.assertEqual(lcd.triangle.call_count, 14)
+        self.assertEqual(lcd.rect.call_count, 7)
+
+    def test_assign_out_of_range(self):
+        with self.assertRaises(ValueError):
+            font16seg.assign(ord("x"), -1)
+
+        with self.assertRaises(ValueError):
+            font16seg.assign(ord("x"), 0b10000000000000000)
+
+    def test_assign_overwrite(self):
+        lcd.screensize = MagicMock(return_value=(136, 241))
+        lcd.triangle = MagicMock()
+        lcd.rect = MagicMock()
+
+        font16seg.attrib16seg(8, 2, lcd.WHITE, unlit_color=None)
+
+        font16seg.text(0, 0, "1")
+        self.assertEqual(lcd.triangle.call_count, 4)
+        self.assertEqual(lcd.rect.call_count, 2)
+
+        lcd.triangle.reset_mock()
+        lcd.rect.reset_mock()
+
+        font16seg.assign(ord("1"), 0b1000100000010011)
+        font16seg.text(0, 0, "1")
+        self.assertEqual(lcd.triangle.call_count, 10)
+        self.assertEqual(lcd.rect.call_count, 5)
