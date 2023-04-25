@@ -39,7 +39,40 @@ It may work on other models and versions.
 
 # Defined letters
 
+* Digits
+    * `0123456789`
+* A-Z (Upper case)
+    * `ABCDEFGHIJKLMNOPQRSTUVWXYZ`
+* Signs
+    * `%*+-/<>[\]_`
+* Colon
+    * `:;` (`;` is used as unlit for colon)
+* Point (Full stop)
+    * `.,` (`,` is used as unlit for point)
+
+You can assign the 16-segment definition to any letters. See `assign` function.
+
 # Functions
+
+## assign(code, flags)
+
+## attrib16seg(length, width, color, [unlit_color, letter_spacing, rotate])
+
+## fontSize()
+
+## resetAttributes()
+
+```python
+from m5stack import lcd
+import font16seg
+
+font16seg.attrib16seg(4, 2, lcd.get_fg(), unlit_color=None, letter_spacing=3, rotate=0)
+```
+
+## text(x, y, txt, [color, unlit_color])
+
+## textWidth(txt)
+
 
 # Develop
 
