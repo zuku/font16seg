@@ -162,6 +162,11 @@ Display the string _txt_.
 
 ## textWidth(txt)
 
+Return calculated width of the text from the attributes.
+
+* `txt`
+    * `str`
+    * String used to calculate width.
 
 # Develop
 
