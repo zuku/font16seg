@@ -51,11 +51,31 @@ It may work on other models and versions.
 * Point (Full stop)
     * `.,` (`,` is used as unlit for point)
 
-You can assign the 16-segment definition to any letters. See `assign` function.
+You can assign the 16-segment definition to any letters. See [assign](#assigncode-flags) function.
 
 # Functions
 
 ## assign(code, flags)
+
+Assign the 16-segment definition to the specific character code.
+
+* `code`
+    * `int`
+    * Character code to assign the definition.
+    * Generally, 20 to 126 is used.
+* `flags`
+    * `int`
+    *  16-bit flags indicate which segments are to be lit or not.
+
+![font16seg segments](docs/images/segments.png)
+
+If you want to assign the degree sign to 'd' (0x64).
+Here is an example.
+
+```python
+font16seg.assign(ord('d'), 0b0100101010000000)
+font16seg.text(10, 10, '4dC')
+```
 
 ## attrib16seg(length, width, color, [unlit_color, letter_spacing, rotate])
 
