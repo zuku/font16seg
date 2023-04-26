@@ -126,12 +126,13 @@ font16seg.text(10, 10, 'FONT')
 
 ## fontSize()
 
+Return calculated width and height of the font from the attributes.
+
 ## resetAttributes()
 
-```python
-from m5stack import lcd
-import font16seg
+Restore the attributes to default. It is same as the following code.
 
+```python
 font16seg.attrib16seg(4, 2, lcd.get_fg(), unlit_color=None, letter_spacing=3, rotate=0)
 ```
 
