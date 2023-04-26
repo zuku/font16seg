@@ -28,7 +28,7 @@ Then run the following code on your M5Stack device.
 ```python
 import font16seg
 
-font16seg.text(10, 10, "FONT16SEG")
+font16seg.text(10, 10, 'FONT16SEG')
 ```
 
 # Supported versions
