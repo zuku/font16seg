@@ -5,6 +5,7 @@ font16seg is a MicroPython module for M5Stack devices prividing a 16-segment fon
 This is not a font file.
 This module draws a letter as 16-segmented figures.
 
+![font16seg banner](docs/images/banner.jpg)
 
 # Usage
 
