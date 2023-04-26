@@ -82,9 +82,9 @@ font16seg.text(10, 10, '4dC')
 
 ![font16seg 4dC](docs/images/4dC.jpg)
 
-## attrib16seg(length, width, color, [unlit_color, letter_spacing, rotate])
+## attrib16seg(length, width, color [,unlit_color, letter_spacing, rotate])
 
-Set attributes of the 16-segment font.
+Set the attributes of the 16-segment font.
 This function is similar to `lcd.attrib7seg()`. But the parameters are incompatible with that.
 
 * `length`
@@ -136,7 +136,7 @@ Restore the attributes to default. It is same as the following code.
 font16seg.attrib16seg(4, 2, lcd.get_fg(), unlit_color=None, letter_spacing=3, rotate=0)
 ```
 
-## text(x, y, txt, [color, unlit_color])
+## text(x, y, txt [,color, unlit_color])
 
 Display the string _txt_.
 
@@ -154,7 +154,7 @@ Display the string _txt_.
 * `color`
     * `int`
     * optional
-    * Lit segments color.
+    * Segments color.
 * `unlit_color`
     * `int`
     * optional
