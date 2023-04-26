@@ -98,12 +98,12 @@ This function is similar to `lcd.attrib7seg()`. But the parameters are incompati
 * `color`
     * `int`
     * Default: `lcd.get_fg()`
-    * Segment color.
+    * Segments color.
 * `unlit_color`
     * `int`
     * optional
     * Default: `None`
-    * Unlit segment color.
+    * Unlit segments color.
 * `letter_spacing`
     * `int`
     * optional
