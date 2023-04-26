@@ -77,6 +77,8 @@ font16seg.assign(ord('d'), 0b0100101010000000)
 font16seg.text(10, 10, '4dC')
 ```
 
+![font16seg 4dC](docs/images/4dC.jpg)
+
 ## attrib16seg(length, width, color, [unlit_color, letter_spacing, rotate])
 
 ## fontSize()
