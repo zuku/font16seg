@@ -67,8 +67,11 @@ Assign the 16-segment definition to the specific character code.
     * `int`
     *  16-bit flags indicate which segments are to be lit or not.
 
+### Flags
+
 ![font16seg segments](docs/images/segments.png)
 
+### Example
 If you want to assign the degree sign to 'd' (0x64).
 Here is an example.
 
@@ -113,7 +116,7 @@ This function is similar to `lcd.attrib7seg()`. But the parameters are incompati
     * Text rotation angle.
     * 0, 90, 180 or 270 is acceptable.
 
-Example
+### Example
 
 ```python
 font16seg.attrib16seg(8, 6, lcd.YELLOW, unlit_color=lcd.NAVY, letter_spacing=16)
