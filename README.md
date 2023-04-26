@@ -81,6 +81,46 @@ font16seg.text(10, 10, '4dC')
 
 ## attrib16seg(length, width, color, [unlit_color, letter_spacing, rotate])
 
+Set attributes of the 16-segment font.
+This function is similar to `lcd.attrib7seg()`. But the parameters are incompatible with that.
+
+* `length`
+    * `int`
+    * Default: `4`
+    * Length of the short segment rectangle part.
+* `width`
+    * `int`
+    * Default: `2`
+    * Width of the segment.
+* `color`
+    * `int`
+    * Default: `lcd.get_fg()`
+    * Segment color.
+* `unlit_color`
+    * `int`
+    * optional
+    * Default: `None`
+    * Unlit segment color.
+* `letter_spacing`
+    * `int`
+    * optional
+    * Default: `3`
+    * The distance between letters.
+* `rotate`
+    * `int`
+    * optional
+    * Default: `0`
+    * Text rotation angle.
+    * 0, 90, 180 or 270 is acceptable.
+
+Example
+
+```python
+font16seg.attrib16seg(8, 6, lcd.YELLOW, unlit_color=lcd.NAVY, letter_spacing=16)
+font16seg.text(10, 10, 'FONT')
+```
+![font16seg attributes](docs/images/attributes.png)
+
 ## fontSize()
 
 ## resetAttributes()
