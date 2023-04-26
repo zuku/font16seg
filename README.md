@@ -138,6 +138,28 @@ font16seg.attrib16seg(4, 2, lcd.get_fg(), unlit_color=None, letter_spacing=3, ro
 
 ## text(x, y, txt, [color, unlit_color])
 
+Display the string _txt_.
+
+* `x`
+    * `int`
+    * Horizontal position of top left point.
+* `y`
+    * `int`
+    * Vertical position of top left point.
+* `txt`
+    * `str`
+    * String to be displayed.
+    * Undefined letter will be displayed as a space (`0x20`).
+    * Text is not wrapped even if _CR_ or _LF_ is given.
+* `color`
+    * `int`
+    * optional
+    * Lit segments color.
+* `unlit_color`
+    * `int`
+    * optional
+    * Unlit segments color.
+
 ## textWidth(txt)
 
 
