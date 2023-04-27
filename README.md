@@ -170,15 +170,45 @@ Return calculated width of the text from the attributes.
 
 # Develop
 
+If you are interested in the font16seg development.
+This section may help you.
+
+The font16seg is developed for the MicroPython environment.
+However, it is difficult to develop and test on the MicroPython runtime.
+Therefore, CPython runtime is used for development and testing.
+
+## Setup
+
+1. Setup Python 3.11
+2. Install pipenv
+    * `pip install pipenv`
+3. Install dependencies using pipenv
+    * `pipenv sync --dev`
+
 ## Tests
 ```
 $ pipenv run test
 ```
 
 ## Build
+
+The `mpy-cross` command is required to build `font16seg.mpy` file.
+Compile the `mpy-cross` command in the following steps.
+
+1. Download MicroPython 1.12 source code
+2. Unarchive and compile `mpy-cross`
+    * `tar -xvf micropython-1.12.tar.gz`
+    * `cd micropython-1.12/mpy-cross/`
+    * `make`
+    * Copy the `mpy-cross` command to the directory listed in `$PATH`
+
+Then run `build` command.
+
 ```
 $ pipenv run build
 ```
+
+`font16seg.mpy` file is created in the `dist` directory.
 
 ## Package
 ```
